@@ -39,7 +39,7 @@ public class MeTests extends AbstractTestsCase {
         try {
             readTest(resultRead);
         } catch (Exception e) {
-            resultRead.setException(e);
+            resultRead.setReport(((ScimApiException) e).getReport());
             return testCaseResults;
         }
         return testCaseResults;
@@ -54,7 +54,7 @@ public class MeTests extends AbstractTestsCase {
 
             result.setResponseCode(response.getStatusCode());
             result.setResponseHeaders(response.getHeaders());
-            result.setResponseBody(response.getData());
+            result.setResponseBody(response.getResponseBody());
         } catch (ScimApiException e) {
             if (e.getCode() == 501 || e.getCode() == 308) {
                 result.setNotSupported(true);

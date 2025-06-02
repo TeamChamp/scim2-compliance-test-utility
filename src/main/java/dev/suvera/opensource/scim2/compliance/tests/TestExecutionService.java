@@ -1,5 +1,6 @@
 package dev.suvera.opensource.scim2.compliance.tests;
 
+import com.fasterxml.jackson.databind.JsonSerializer;
 import dev.suvera.opensource.scim2.compliance.biz.SchemaFetcher;
 import dev.suvera.opensource.scim2.compliance.data.*;
 import dev.suvera.opensource.scim2.compliance.tests.group.GroupCrudTests;
@@ -7,11 +8,13 @@ import dev.suvera.opensource.scim2.compliance.tests.misc.BulkTests;
 import dev.suvera.opensource.scim2.compliance.tests.misc.MeTests;
 import dev.suvera.opensource.scim2.compliance.tests.misc.SearchTests;
 import dev.suvera.opensource.scim2.compliance.tests.user.UserCrudTests;
+import dev.suvera.opensource.scim2.compliance.biz.ScimApiException;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,11 +50,16 @@ public class TestExecutionService {
         try {
             spc = fetcher.fetchServiceProviderConfig();
             result.setSuccess(true);
-            result.setResponseBody(spc.toString());
+            result.setResponseBody(spc);
             result.setResponseCode(200);
             database.addTestResult(runId, result);
         } catch (Exception e) {
-            result.setException(e);
+            if (e instanceof ScimApiException)
+            {
+                result.setMessage(((ScimApiException) e).getMessage());
+                result.setReport(((ScimApiException) e).getReport());
+                result.setResponseBody(((ScimApiException) e).getResponseBody());
+            }
             database.addTestResult(runId, result);
             database.addTestResult(runId, new TestCaseResult("--DONE--"));
             e.printStackTrace();
@@ -66,11 +74,16 @@ public class TestExecutionService {
         try {
             resourceTypes = fetcher.fetchResourceTypes();
             result.setSuccess(true);
-            result.setResponseBody(resourceTypes.toString());
+            result.setResponseBody(resourceTypes);
             result.setResponseCode(200);
             database.addTestResult(runId, result);
         } catch (Exception e) {
-            result.setException(e);
+            if (e instanceof ScimApiException)
+            {
+                result.setMessage(((ScimApiException) e).getMessage());
+                result.setReport(((ScimApiException) e).getReport());
+                result.setResponseBody(((ScimApiException) e).getResponseBody());
+            }
             database.addTestResult(runId, result);
             database.addTestResult(runId, new TestCaseResult("--DONE--"));
             e.printStackTrace();
@@ -86,10 +99,15 @@ public class TestExecutionService {
             schemas = fetcher.fetchSchemas(resourceTypes);
             result.setSuccess(true);
             result.setResponseCode(200);
-            result.setResponseBody(schemas.toString());
+            result.setResponseBody(schemas);
             database.addTestResult(runId, result);
         } catch (Exception e) {
-            result.setException(e);
+            if (e instanceof ScimApiException)
+            {
+                result.setMessage(((ScimApiException) e).getMessage());
+                result.setReport(((ScimApiException) e).getReport());
+                result.setResponseBody(((ScimApiException) e).getResponseBody());
+            }
             database.addTestResult(runId, result);
             database.addTestResult(runId, new TestCaseResult("--DONE--"));
             e.printStackTrace();
@@ -136,7 +154,12 @@ public class TestExecutionService {
         } catch (Exception e) {
 
             TestCaseResult errResult = new TestCaseResult("Unexpected Error");
-            errResult.setException(e);
+            if (e instanceof ScimApiException)
+            {
+                errResult.setMessage(((ScimApiException) e).getMessage());
+                errResult.setReport(((ScimApiException) e).getReport());
+                errResult.setResponseBody(((ScimApiException) e).getResponseBody());
+            }
 
             results = new ArrayList<>();
             results.add(errResult);

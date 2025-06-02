@@ -66,11 +66,17 @@ public class ScimApiClient {
 
         String url = scimApiUrl;
         if (endPoint != null) {
-            if (!url.endsWith("/")) {
-                url += "/";
+            if (this.endPoint.toLowerCase().startsWith("http://") ||
+                    this.endPoint.toLowerCase().startsWith("https://")) {
+                // Use the fully qualified URL directly
+                url = this.endPoint;
+            } else {
+                if (!url.endsWith("/")) {
+                    url += "/";
+                }
+                String endPoint = StringUtils.stripStart(this.endPoint, " /");
+                url += endPoint;
             }
-            String endPoint = StringUtils.stripStart(this.endPoint, " /");
-            url += endPoint;
         }
         if (path != null) {
             path = StringUtils.stripStart(path, " /");

@@ -3,12 +3,14 @@ package dev.suvera.opensource.scim2.compliance.biz;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.fge.jackson.JsonLoader;
+import com.github.fge.jsonschema.core.report.ProcessingMessage;
 import com.github.fge.jsonschema.core.report.ProcessingReport;
 import com.github.fge.jsonschema.main.JsonSchema;
 import com.github.fge.jsonschema.main.JsonSchemaFactory;
 import dev.suvera.opensource.scim2.compliance.data.ScimConstants;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -34,14 +36,14 @@ public class ScimResponseValidator {
             Class<T> dataClass
     ) throws Exception {
         final JsonNode dataNode = JsonLoader.fromString(response);
-
+    
         ProcessingReport report = validateResponse(response, jsonSchema);
-
+    
         if (report.isSuccess()) {
             return jsonMapper.readValue(dataNode.toString(), dataClass);
         }
-
-        throw new ScimApiException(report.toString() + "\n" + "Actual Response: " + response);
+            
+        throw new ScimApiException(report, dataNode);
     }
 
     public static ProcessingReport validateResponse(

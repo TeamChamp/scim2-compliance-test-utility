@@ -78,21 +78,21 @@ public class UserCrudTests extends AbstractTestsCase {
             createResponse = createTest(resultCreate);
             user1 = jsonMapper.readValue(createResponse, User.class);
         } catch (Exception e) {
-            resultCreate.setException(e);
+            resultCreate.setReport(((ScimApiException) e).getReport());
             return testCaseResults;
         }
 
         try {
             readTest(user1, resultRead);
         } catch (Exception e) {
-            resultRead.setException(e);
+            resultRead.setReport(((ScimApiException) e).getReport());
             return testCaseResults;
         }
 
         try {
             listTest(resultList, null);
         } catch (Exception e) {
-            resultList.setException(e);
+            resultList.setReport(((ScimApiException) e).getReport());
             return testCaseResults;
         }
 
@@ -100,7 +100,7 @@ public class UserCrudTests extends AbstractTestsCase {
             try {
                 listTest(resultFilter, "name.familyName co \"Stark\"");
             } catch (Exception e) {
-                resultFilter.setException(e);
+                resultFilter.setReport(((ScimApiException) e).getReport());
                 return testCaseResults;
             }
         }
@@ -108,7 +108,7 @@ public class UserCrudTests extends AbstractTestsCase {
         try {
             updateTest(user1, resultUpdate, createResponse);
         } catch (Exception e) {
-            resultUpdate.setException(e);
+            resultUpdate.setReport(((ScimApiException) e).getReport());
             return testCaseResults;
         }
 
@@ -116,7 +116,7 @@ public class UserCrudTests extends AbstractTestsCase {
             try {
                 patchTest(user1, resultPatch);
             } catch (Exception e) {
-                resultPatch.setException(e);
+                resultPatch.setReport(((ScimApiException) e).getReport());
                 return testCaseResults;
             }
         }
@@ -124,7 +124,7 @@ public class UserCrudTests extends AbstractTestsCase {
         try {
             deleteTest(user1, resultDelete);
         } catch (Exception e) {
-            resultDelete.setException(e);
+            resultDelete.setReport(((ScimApiException) e).getReport());
             return testCaseResults;
         }
 

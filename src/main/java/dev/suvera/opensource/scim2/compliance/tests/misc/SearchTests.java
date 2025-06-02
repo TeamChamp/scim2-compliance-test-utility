@@ -49,7 +49,12 @@ public class SearchTests extends AbstractTestsCase {
                     null
             );
         } catch (Exception e) {
-            result.setException(e);
+            if (e instanceof ScimApiException)
+            {
+                result.setMessage(((ScimApiException) e).getMessage());
+                result.setReport(((ScimApiException) e).getReport());
+                result.setResponseBody(((ScimApiException) e).getResponseBody());
+            }
             return testCaseResults;
         }
 
@@ -66,7 +71,12 @@ public class SearchTests extends AbstractTestsCase {
                     ScimConstants.SCHEMA_USER
             );
         } catch (Exception e) {
-            result.setException(e);
+            if (e instanceof ScimApiException)
+            {
+                result.setMessage(((ScimApiException) e).getMessage());
+                result.setReport(((ScimApiException) e).getReport());
+                result.setResponseBody(((ScimApiException) e).getResponseBody());
+            }
             return testCaseResults;
         }
 
@@ -83,7 +93,12 @@ public class SearchTests extends AbstractTestsCase {
                     ScimConstants.SCHEMA_GROUP
             );
         } catch (Exception e) {
-            result.setException(e);
+            if (e instanceof ScimApiException)
+            {
+                result.setMessage(((ScimApiException) e).getMessage());
+                result.setReport(((ScimApiException) e).getReport());
+                result.setResponseBody(((ScimApiException) e).getResponseBody());
+            }
             return testCaseResults;
         }
 
@@ -112,7 +127,7 @@ public class SearchTests extends AbstractTestsCase {
         try {
             response = api.createUserWithHttpInfo(body);
 
-            result.setResponseBody(response.getData());
+            result.setResponseBody(response.getResponseBody());
             result.setResponseCode(response.getStatusCode());
             result.setResponseHeaders(response.getHeaders());
         } catch (ScimApiException e) {
@@ -133,7 +148,7 @@ public class SearchTests extends AbstractTestsCase {
 
         if (schemaId != null && !schemaId.isEmpty()) {
             ProcessingReport report = ScimResponseValidator.validateResponse(
-                    result.getResponseBody(),
+                    result.getResponseBody().toString(),
                     getSchemas().getJsonListSchema(schemaId),
                     false
             );

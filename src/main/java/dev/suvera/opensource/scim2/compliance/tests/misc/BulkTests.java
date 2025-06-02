@@ -53,7 +53,12 @@ public class BulkTests extends AbstractTestsCase {
                     builder.getTestContext().getEndPoint() + ScimConstants.URI_BULK
             );
         } catch (Exception e) {
-            result.setException(e);
+            if (e instanceof ScimApiException)
+            {
+                result.setMessage(((ScimApiException) e).getMessage());
+                result.setReport(((ScimApiException) e).getReport());
+                result.setResponseBody(((ScimApiException) e).getResponseBody());
+            }
             return testCaseResults;
         }
 

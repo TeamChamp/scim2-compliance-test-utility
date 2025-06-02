@@ -79,7 +79,7 @@ public class GroupCrudTests extends AbstractTestsCase {
             createResponse = createTest(resultCreate);
             group1 = jsonMapper.readValue(createResponse, Group.class);
         } catch (Exception e) {
-            resultCreate.setException(e);
+            resultCreate.setReport(((ScimApiException) e).getReport());
             deleteUser(user1);
             return testCaseResults;
         }
@@ -87,7 +87,7 @@ public class GroupCrudTests extends AbstractTestsCase {
         try {
             readTest(group1, resultRead);
         } catch (Exception e) {
-            resultRead.setException(e);
+            resultRead.setReport(((ScimApiException) e).getReport());
             deleteUser(user1);
             return testCaseResults;
         }
@@ -95,7 +95,7 @@ public class GroupCrudTests extends AbstractTestsCase {
         try {
             listTest(resultList, null);
         } catch (Exception e) {
-            resultList.setException(e);
+            resultList.setReport(((ScimApiException) e).getReport());
             deleteUser(user1);
             return testCaseResults;
         }
@@ -104,7 +104,7 @@ public class GroupCrudTests extends AbstractTestsCase {
             try {
                 listTest(resultFilter, "displayName co \"Stark\"");
             } catch (Exception e) {
-                resultFilter.setException(e);
+                resultFilter.setReport(((ScimApiException) e).getReport());
                 deleteUser(user1);
                 return testCaseResults;
             }
@@ -113,7 +113,7 @@ public class GroupCrudTests extends AbstractTestsCase {
         try {
             updateTest(group1, resultUpdate, createResponse);
         } catch (Exception e) {
-            resultUpdate.setException(e);
+            resultUpdate.setReport(((ScimApiException) e).getReport());
             deleteUser(user1);
             return testCaseResults;
         }
@@ -122,7 +122,7 @@ public class GroupCrudTests extends AbstractTestsCase {
             try {
                 patchTest(group1, user1, resultPatch);
             } catch (Exception e) {
-                resultPatch.setException(e);
+                resultPatch.setReport(((ScimApiException) e).getReport());
                 deleteUser(user1);
                 return testCaseResults;
             }
@@ -131,7 +131,7 @@ public class GroupCrudTests extends AbstractTestsCase {
         try {
             deleteTest(group1, resultDelete);
         } catch (Exception e) {
-            resultDelete.setException(e);
+            resultDelete.setReport(((ScimApiException) e).getReport());
             deleteUser(user1);
             return testCaseResults;
         }
@@ -156,7 +156,7 @@ public class GroupCrudTests extends AbstractTestsCase {
                 .getScimv2UsersClient(endPoint)
                 .createUserWithHttpInfo(body);
 
-        result.setResponseBody(response.getData());
+        result.setResponseBody(response.getResponseBody());
         result.setResponseCode(response.getStatusCode());
         result.setResponseHeaders(response.getHeaders());
 
@@ -218,7 +218,7 @@ public class GroupCrudTests extends AbstractTestsCase {
         api.getScimApiClient().setURL(group1.getMeta().getLocation());
         ScimApiResponse<String> response = api.updateGroupWithHttpInfo(body, HttpMethod.PATCH);
 
-        result.setResponseBody(response.getData());
+        result.setResponseBody(response.getResponseBody());
         result.setResponseCode(response.getStatusCode());
         result.setResponseHeaders(response.getHeaders());
 
@@ -254,7 +254,7 @@ public class GroupCrudTests extends AbstractTestsCase {
         api.getScimApiClient().setURL(group1.getMeta().getLocation());
         ScimApiResponse<String> response = api.updateGroupWithHttpInfo(body, HttpMethod.PUT);
 
-        result.setResponseBody(response.getData());
+        result.setResponseBody(response.getResponseBody());
         result.setResponseCode(response.getStatusCode());
         result.setResponseHeaders(response.getHeaders());
 
@@ -293,7 +293,7 @@ public class GroupCrudTests extends AbstractTestsCase {
                 null
         );
 
-        result.setResponseBody(response.getData());
+        result.setResponseBody(response.getResponseBody());
         result.setResponseCode(response.getStatusCode());
         result.setResponseHeaders(response.getHeaders());
 
@@ -335,7 +335,7 @@ public class GroupCrudTests extends AbstractTestsCase {
                 .getScimv2GroupsClient(endPoint)
                 .createGroupWithHttpInfo(body);
 
-        result.setResponseBody(response.getData());
+        result.setResponseBody(response.getResponseBody());
         result.setResponseCode(response.getStatusCode());
         result.setResponseHeaders(response.getHeaders());
 
@@ -366,7 +366,7 @@ public class GroupCrudTests extends AbstractTestsCase {
         api.getScimApiClient().setURL(group1.getMeta().getLocation());
         ScimApiResponse<String> response = api.deleteGroupWithHttpInfo();
 
-        result.setResponseBody(response.getData());
+        result.setResponseBody(response.getResponseBody());
         result.setResponseCode(response.getStatusCode());
         result.setResponseHeaders(response.getHeaders());
 
@@ -385,7 +385,7 @@ public class GroupCrudTests extends AbstractTestsCase {
         api.getScimApiClient().setURL(group1.getMeta().getLocation());
         ScimApiResponse<String> response = api.getGroupByIdWithHttpInfo();
 
-        result.setResponseBody(response.getData());
+        result.setResponseBody(response.getResponseBody());
         result.setResponseCode(response.getStatusCode());
         result.setResponseHeaders(response.getHeaders());
 
