@@ -36,6 +36,20 @@ docker run -it --rm --name scim2-compliance-test-utility -p 8081:8081 suvera/sci
 docker run -it --rm --name scim2-compliance-test-utility  -p 8081:8081 --platform linux/amd64 suvera/scim2-compliance-test-utility:1.0.2
 ```
 
+#### Building locally for Docker
+
+```
+
+# on Linux/Windows
+docker build -t scim2-compliance-test-utility:local .
+docker run -it --rm --name scim2-compliance-test-utility -p 8081:8081 suvera/scim2-compliance-test-utility:local
+
+# on MAC OS (specify platform)
+docker build -t scim2-compliance-test-utility:local --platform linux/amd64 .
+docker run -it --rm --name scim2-compliance-test-utility -p 8081:8081 --platform linux/amd64 suvera/scim2-compliance-test-utility:local
+
+```
+
 Open Test utility in the browser
 http://localhost:8081/
 
