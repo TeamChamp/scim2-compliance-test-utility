@@ -289,7 +289,7 @@ public class UserCrudTests extends AbstractTestsCase {
             return response.getData();
         }
 
-        throw new ScimApiException(report.toString() + "\n" + "Actual Response: " + response.getData());
+        throw new ScimApiException(report, response.getResponseBody());
     }
 
     private void deleteTest(User user1, TestCaseResult result) throws Exception {
@@ -337,7 +337,7 @@ public class UserCrudTests extends AbstractTestsCase {
             return;
         }
 
-        throw new ScimApiException(report.toString() + "\n" + "Actual Response: " + response.getData());
+        throw new ScimApiException(report, response.getResponseBody());
     }
 
 }
