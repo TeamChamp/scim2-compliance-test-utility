@@ -142,8 +142,8 @@ public class UserCrudTests extends AbstractTestsCase {
                       "\t\"Operations\": [\n" +
                       "\t\t{\n" +
                       "\t\t\t\"op\": \"replace\",\n" +
-                      "\t\t\t\"path\": \"name.familyName\",\n" +
-                      "\t\t\t\"value\": \"Stagger\"\n" +
+                      "\t\t\t\"path\": \"name.formatted\",\n" +
+                      "\t\t\t\"value\": \"Allan S. Hansen\"\n" +
                       "\t\t}\n" +
                       "\t]\n" +
                       "}";
