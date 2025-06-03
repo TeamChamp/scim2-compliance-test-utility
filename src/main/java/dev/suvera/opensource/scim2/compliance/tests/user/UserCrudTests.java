@@ -98,7 +98,7 @@ public class UserCrudTests extends AbstractTestsCase {
 
         if (getSpc().getFilter().isSupported()) {
             try {
-                listTest(resultFilter, "name.familyName co \"Stark\"");
+                listTest(resultFilter, "name.formatted eq " + user1.getName().getFormatted());
             } catch (Exception e) {
                 resultFilter.setReport(((ScimApiException) e).getReport());
                 return testCaseResults;
