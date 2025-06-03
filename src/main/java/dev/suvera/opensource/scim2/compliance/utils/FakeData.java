@@ -189,7 +189,7 @@ public class FakeData {
         }
 
         if (schema.hasAttribute("password")) {
-            root.k("password", name.username());
+            root.k("password", UUID.randomUUID().toString());
         }
 
         for (ScimAttribute attr : schema.getAttributes()) {
